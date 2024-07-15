@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision.models import resnet18
+import matplotlib.pyplot as plt
 
 #Define preprocessed paths
 PREPROCESSED_PATH = r"C:\Users\Joseph Moubarak\Desktop\OMANNA SAD\dataset\preprocessed"
@@ -37,7 +38,7 @@ model = resnet18(pretrained=True)
 #Output finallayer to match the 2 classifications (malignant&benign) to be changed later for precise diagnostics
 num_classes = len(dataset.classes)
 model.fc = nn.Sequential(
-    nn.Dropout(0.5),  # Optimization2 Add dropout prevent model becoming too reliant on certain neurons) Goal:Reduce overfitting
+    nn.Dropout(0.6),  # Optimization2 Add dropout prevent model becoming too reliant on certain ways of classifying using datasets) Goal:Reduce overfitting
     nn.Linear(model.fc.in_features, num_classes)
 )
 
@@ -51,8 +52,13 @@ model.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4) #optimization3 Keeping weights small 4 simpler patterns goal: reduce overfitting
 
-#Training loop (1 epoch = full iteration of dataset)
+
 num_epochs = 10
+train_losses = []
+val_losses = []
+val_accuracies = []
+
+#Training loop (1 epoch = full iteration of dataset)
 for epoch in range(num_epochs):
     model.train()
     running_loss = 0.0
@@ -64,6 +70,7 @@ for epoch in range(num_epochs):
         loss.backward()
         optimizer.step()
         running_loss += loss.item()
+    train_losses.append(running_loss / len(train_loader))
     print(f"Epoch {epoch+1}/{num_epochs}, Loss: {running_loss/len(train_loader)}")
 
 # Validate loss
@@ -80,8 +87,30 @@ with torch.no_grad():
         _, predicted = torch.max(outputs, 1)
         total += labels.size(0)
         correct += (predicted == labels).sum().item()
+        val_losses.append(val_loss / len(val_loader))
+        val_accuracies.append(100 * correct / total)
 print(f"Validation Loss: {val_loss/len(val_loader)}, Accuracy: {100 * correct / total}%")
 
 # Save the model
 torch.save(model.state_dict(), "skin_lesion_model.pth")
 
+
+# Project the training and validation losses
+plt.figure(figsize=(10, 5))
+plt.title("Training and Validation Loss")
+plt.plot(train_losses, label="Training Loss")
+plt.plot(val_losses, label="Validation Loss")
+plt.xlabel("Epochs")
+plt.ylabel("Loss")
+plt.legend()
+plt.show()
+
+
+# validation accuracy
+plt.figure(figsize=(10, 5))
+plt.title("Validation Accuracy")
+plt.plot(val_accuracies, label="Validation Accuracy")
+plt.xlabel("Epochs")
+plt.ylabel("Accuracy (%)")
+plt.legend()
+plt.show()
