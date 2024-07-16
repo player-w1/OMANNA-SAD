@@ -15,10 +15,12 @@ The goal of this project is to build a machine learning model that can accuratel
 
 ```bash
 git clone https://github.com/player-w1/OMANNA-SAD.git
-cd <your-repo-directory>
+cd <your-directory>
 ```
 
 ### 2. Set Up Virtual Environment
+
+Due to the inter-dependancies of certains packages & versions, I set up my lab in a virtual environment (I recommend doing so).
 
 ```
 .\env\Scripts\Activate.ps1  # Windows
@@ -26,6 +28,8 @@ source env/bin/activate     # macOS/Linux
 ```
 
 ### 3. Install Dependencies
+
+I sent the output of pip freeze into the requirements.txt so all the packages you need in your venv are there. 
 
 ```
 pip install -r requirements.txt
