@@ -1,4 +1,4 @@
-# Skin Lesion Classification with ResNet18 Convolutioal Neural Network
+# Skin Cancer Lesion Classification with ResNet18 Convolutioal Neural Network
 
 The objective of my machine learning project was to develop a Flask web application designed for image recognition, specifically tailored for combat and contact sports. The application allows users to upload images of skin bumps or infections, and the system then labels them as malicious (potentially harmful) or not. This functionality is particularly valuable for sports like wrestling and Brazilian Jiu-Jitsu, where skin infections are common.
 
