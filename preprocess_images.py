@@ -1,6 +1,7 @@
 import os
 
-try:
+
+try:  #Had problems with Numpy (was using Numpy 2.0, some dependancies require Numpy version<2.0)
     import numpy as np
     print("Numpy version:", np.__version__)
 except ImportError as e:
@@ -15,17 +16,17 @@ BENIGN_PATH = r"C:\Users\Joseph Moubarak\Desktop\OMANNA SAD\dataset\benign"
 MALIGNANT_PATH = r"C:\Users\Joseph Moubarak\Desktop\OMANNA SAD\dataset\malignant"
 PREPROCESSED_PATH = r"C:\Users\Joseph Moubarak\Desktop\OMANNA SAD\dataset\preprocessed"
 
-
+#Mkdir for the preprocessed  datasets
 os.makedirs(os.path.join(PREPROCESSED_PATH, 'benign'), exist_ok=True)
 os.makedirs(os.path.join(PREPROCESSED_PATH, 'malignant'), exist_ok=True)
 
-# Define image transformations
+#Image transformations
 transform = transforms.Compose([
-    transforms.Resize((224, 224)),  # Standardizes image size for consistency
-    transforms.RandomHorizontalFlip(),  # Augments data by flipping images
-    transforms.RandomRotation(30),  # Augments data by rotating images
+    transforms.Resize((224, 224)),  
+    transforms.RandomHorizontalFlip(),  
+    transforms.RandomRotation(30),  
     transforms.ToTensor(),  # Converts images to tensors for PyTorch
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])  # Normalize
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])  
 ])
 
 # fix the tensor object cannot be saved error
