@@ -29,7 +29,7 @@ source env/bin/activate     # macOS/Linux
 
 ### 3. Install Dependencies
 
-I sent the output of pip freeze into the requirements.txt so all the packages you need in your venv are there. 
+pip freeze is in the requirements.txt so all the packages you need for your environment are there. 
 
 ```
 pip install -r requirements.txt
